@@ -1,20 +1,20 @@
 # Vue.js (frontend)
-frontend/node_modules/
-frontend/dist/
-frontend/.env
-frontend/.env.*
-frontend/*.log
+frontend/base_front/node_modules/
+frontend/base_front/dist/
+frontend/base_front/.env
+frontend/base_front/.env.*
+frontend/base_front/*.log
 
 # Rails (backend)
-backend/log/
-backend/tmp/
-backend/storage/
-backend/vendor/
-backend/.byebug_history
-backend/config/master.key
-backend/public/assets
-backend/public/packs
-backend/node_modules/
+Wallet_backend/log/
+Wallet_backend/tmp/
+Wallet_backend/storage/
+Wallet_backend/vendor/
+Wallet_backend/.byebug_history
+Wallet_backend/config/master.key
+Wallet_backend/public/assets
+Wallet_backend/public/packs
+Wallet_backend/node_modules/
 
 # Общие исключения
 .DS_Store
@@ -25,4 +25,4 @@ backend/node_modules/
 .env.local
 .env.*.local
 
-base_backend/
+base_backend/*
