@@ -5,6 +5,7 @@ class User < ApplicationRecord
   :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
 
   has_many :accounts
+  has_many :account_transactions, through: :accounts
 
   validates :email, presence: true
   validates :password, presence: true
