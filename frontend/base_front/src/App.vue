@@ -3,6 +3,11 @@
     <v-app-bar app>
       <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
       <v-toolbar-title>RoR 7 & VueJS 3 Auth</v-toolbar-title>
+      <v-toolbar-items class='d-flex ga-2 justify-center align-center'>
+        <router-link to='/accounts'>
+          Accounts
+        </router-link>
+      </v-toolbar-items>
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <the-menu></the-menu>
@@ -46,7 +51,8 @@ export default {
       drawer: true,
       menuItems: [
         { title: 'Home', icon: 'mdi-home', to: '/' },
-        // Добавьте другие пункты меню по необходимости
+        { title: 'Accounts', icon: 'mdi-home', to: '/accounts' },
+
       ]
     }
   }

@@ -4,6 +4,8 @@
       :error-messages='errors?.first_name'></v-text-field>
     <v-text-field v-model="userData.last_name" :counter="50" label="Last name"
       :error-messages='errors?.last_name'></v-text-field>
+    <v-text-field v-model="userData.user_name" :counter="50" label="Nickname"
+      :error-messages='errors?.user_name'></v-text-field>
     <v-text-field v-model="userData.email" label="E-mail" :error-messages='errors?.email'></v-text-field>
     <v-text-field v-model="userData.password" label="Password" type="password"
       :error-messages='errors?.password'></v-text-field>
@@ -29,6 +31,7 @@ const errors = ref({})
 const userData = reactive({
   first_name: '',
   last_name: '',
+  user_name: '',
   email: '',
   password: ''
 })

@@ -8,7 +8,8 @@
 import vuetify from './vuetify'
 import pinia from '@/stores'
 import router from '@/router'
-import {useAuthStore} from "@/stores/auth";
+import { useAuthStore } from "@/stores/auth";
+
 
 
 export function registerPlugins (app) {

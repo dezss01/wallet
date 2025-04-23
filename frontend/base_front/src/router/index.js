@@ -1,9 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import UserRegistration from "@/pages/UserRegistration.vue";
 import UserAuth from "@/pages/UserAuth.vue";
-import ThePost from "@/components/ThePost.vue";
+import TheAccounts from "@/pages/TheAccounts.vue";
 import TheBasePage from "@/pages/TheBasePage.vue";
 import UserEdit from "@/pages/UserEdit.vue";
+import NewAccountPage from "@/pages/NewAccountPage.vue";
+import ShowAccountPage from "@/pages/ShowAccountPage.vue";
+import EditAccountPage from "@/pages/EditAccountPage.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,9 +22,9 @@ const router = createRouter({
       component: UserAuth
     },
     {
-      path: '/new_post',
-      name: 'new post',
-      component: ThePost
+      path: '/accounts',
+      name: 'accounts',
+      component: TheAccounts
     },
     {
       path: '/',
@@ -30,8 +33,23 @@ const router = createRouter({
     },
     {
       path: '/edit',
-      name: 'edit',
+      name: 'edit_user',
       component: UserEdit
+    },
+    {
+      path: '/account/new',
+      name: 'new_account',
+      component: NewAccountPage,
+    },
+    {
+      path: '/account/:id',
+      name: 'accountId',
+      component: ShowAccountPage,
+    },
+    {
+      path: '/account/:id/edit',
+      name: 'edit_account',
+      component: EditAccountPage,
     }
   ],
 

@@ -1,20 +1,3 @@
-<template>
-  <form @submit.prevent="submit(userData)">
-
-    <v-text-field v-model="userData.email" label="E-mail" :error-messages='errors'></v-text-field>
-    <v-text-field v-model="userData.password" label="Password" type="password" :error-messages='errors'></v-text-field>
-    <!-- <v-text-field v-model="userData.password_confirmation" label="Password confirmation"
-      :error-messages='errors'></v-text-field> -->
-
-    <v-btn class="me-4" type="submit">
-      submit
-    </v-btn>
-
-    <v-btn @click="handleClear">
-      clear
-    </v-btn>
-  </form>
-</template>
 <script setup>
 import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
@@ -26,7 +9,6 @@ const authStore = useAuthStore()
 const userData = reactive({
   email: '',
   password: '',
-  // password_confirmation: '',
 })
 const errors = ref({})
 
@@ -37,7 +19,6 @@ const handleClear = () => {
   Object.assign(userData, {
     email: '',
     password: '',
-    // password_confirmation: '',
   }), clearError()
 }
 
@@ -55,5 +36,23 @@ const submit = async (userData) => {
   }
 
 };
-
 </script>
+<template>
+  <v-container>
+    <form @submit.prevent="submit(userData)">
+      <v-text-field v-model="userData.email" label="E-mail" :error-messages='errors' variant='outlined'
+        density='compact'>
+      </v-text-field>
+      <v-text-field v-model="userData.password" label="Password" type="password" :error-messages='errors'
+        variant='outlined' density='compact'>
+      </v-text-field>
+      <v-btn class="me-4" type="submit">
+        submit
+      </v-btn>
+
+      <v-btn @click="handleClear">
+        clear
+      </v-btn>
+    </form>
+  </v-container>
+</template>

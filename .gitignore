@@ -1,24 +1,28 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+# Vue.js (frontend)
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.*
+frontend/*.log
 
-node_modules
-dist
-dist-ssr
-*.local
+# Rails (backend)
+backend/log/
+backend/tmp/
+backend/storage/
+backend/vendor/
+backend/.byebug_history
+backend/config/master.key
+backend/public/assets
+backend/public/packs
+backend/node_modules/
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# Общие исключения
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+*.log
+.idea/
+.vscode/
+.env
+.env.local
+.env.*.local
+
+base_backend/

@@ -3,6 +3,8 @@
   <v-form @submit.prevent="onSubmit(userData)">
     <v-text-field v-model="userData.first_name" :counter="50" label="First name" :error-messages="errors?.first_name" />
     <v-text-field v-model="userData.last_name" :counter="50" label="Last name" :error-messages="errors?.last_name" />
+    <v-text-field v-model="userData.user_name" :counter="50" label="Last name" :error-messages="errors?.last_name" />
+
     <v-text-field v-model="userData.email" label="E-mail" :error-messages="errors?.email" />
     <v-text-field v-model="userData.password" label="Password" type="password" :error-messages="errors?.password" />
     <v-text-field v-model="userData.password_confirmation" label="Password confirmation" type="password"
@@ -14,9 +16,7 @@
       Submit
     </v-btn>
 
-    <v-btn @click="handleClear">
-      Clear
-    </v-btn>
+    <v-btn @click="handleClear">Clear</v-btn>
   </v-form>
 </template>
 
@@ -34,6 +34,7 @@ const clearError = () => {
 const userData = reactive({
   first_name: authStore.currentUser.first_name,
   last_name: authStore.currentUser.last_name,
+  user_name: authStore.currentUser.user_name,
   email: authStore.currentUser.email,
   password: '',
   password_confirmation: '',
