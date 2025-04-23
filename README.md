@@ -1,3 +1,3 @@
-# rails_device_vue_login
+
 # wallet
-# wallet
+rails 8, vue js 3, postges
