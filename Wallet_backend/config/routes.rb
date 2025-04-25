@@ -7,7 +7,10 @@ Rails.application.routes.draw do
              defaults: { format: :json }
   namespace :api do
     namespace :v1 do
-      resources :accounts
+      resources :accounts do
+        resources :transactions, controller: "account_transactions", only: [ :index, :create ]
+      end
+      resources :transactions, controller: "account_transactions", only: [ :show, :update, :destroy ]
     end
   end
 end

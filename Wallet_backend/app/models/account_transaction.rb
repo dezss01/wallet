@@ -37,16 +37,35 @@ class AccountTransaction < ApplicationRecord
   validates :currency, presence: true, inclusion: { in: CURRENCIES }
   validates :description, presence: true, length: { within: DESCRIPTION_LENGTH_RANGE }
 
-  after_create :update_account_balance
+  after_create :apply_transaction
+  after_update :adjust_balance
+  after_destroy :reverse_transaction
 
   private
 
-  def update_account_balance
-    case transaction_type
-    when "deposit"
-      account.update!(balance: account.balance + amount)
-    when "withdrawal"
-      account.update!(balance: account.balance - amount)
+  def apply_transaction
+    account.with_lock do
+      account.update_balance!(amount, transaction_type)
+    end
+  end
+
+  def adjust_balance
+    return unless saved_change_to_amount? || saved_change_to_transaction_type?
+
+    account.with_lock do
+      # Отменяем предыдущее влияние
+      old_amount = amount_before_last_save || 0
+      old_type = transaction_type_before_last_save || transaction_type
+      account.update_balance!(-old_amount, old_type)
+
+      # Применяем новые изменения
+      account.update_balance!(amount, transaction_type)
+    end
+  end
+
+  def reverse_transaction
+    account.with_lock do
+      account.update_balance!(-amount, transaction_type)
     end
   end
 end

@@ -18,7 +18,7 @@
 
 class Account < ApplicationRecord
   belongs_to :user
-  has_many :account_transactions
+  has_many :account_transactions, dependent: :destroy
 
   CURRENCIES = %w[USD EUR RUB].freeze
   MAX_BALANCE = 100_000_000_000_000_000.00
@@ -37,13 +37,25 @@ class Account < ApplicationRecord
   validates :currency, presence: true, inclusion: { in: CURRENCIES }
   validates :description, presence: true, length: { within: DESCRIPTION_LENGTH_RANGE }
   validates :user, presence: { message: "must be present" }
-  validate :balance_cannot_be_negative
+
+  def update_balance!(amount, transaction_type)
+    case transaction_type
+    when "deposit" then increment!(:balance, amount)
+    when "withdrawal" then decrement!(:balance, amount)
+    end
+  rescue ActiveRecord::StaleObjectError
+    reload
+    retry
+  end
+
 
   private
 
-  def balance_cannot_be_negative
-    if balance < 0
-      errors.add(:balance, "cannot be negative")
-    end
+  def increment!(field, value)
+    update!(field => self[field] + value)
+  end
+
+  def decrement!(field, value)
+    update!(field => self[field] - value)
   end
 end
