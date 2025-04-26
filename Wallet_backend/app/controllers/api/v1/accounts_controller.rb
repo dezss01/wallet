@@ -2,6 +2,7 @@
 module Api
   module V1
     class AccountsController < ApplicationController
+      before_action :authenticate_user!
       before_action :set_account, only: [ :show, :update, :destroy ]
 
       def index
@@ -14,24 +15,30 @@ module Api
       end
 
       def create
-        @account = current_user.accounts.build(account_params)
+        @account = current_user.accounts.new(account_params.except(:balance))
 
-        if @account.save
+        ActiveRecord::Base.transaction do
+          @account.save!
+          @account.update_columns(balance: account_params[:balance].to_f) # Инициализируем баланс нулем
           render json: @account, status: :created
-        else
-          render json: ErrorSerializer.serialize(@account.errors), status: :unprocessable_entity
         end
-      rescue StandardError => e
-        render json: ErrorSerializer.serialize(e.message), status: :internal_server_error
+      rescue ActiveRecord::RecordInvalid => e
+        render json: ErrorSerializer.serialize(e.record.errors), status: :unprocessable_entity
+      rescue => e
+        render json: ErrorSerializer.serialize(e.message), status: :unprocessable_entity
       end
 
       def update
-        if @account.update(account_params)
-          render json: @account
-        else
-          render json: { errors: @account.errors, received_params: params.to_unsafe_h }, status: :unprocessable_entity
+        @account.update!(account_params.except(:balance))
 
+        ActiveRecord::Base.transaction do
+          @account.update_columns(balance: account_params[:balance].to_f) # Инициализируем баланс нулем
+          render json: @account, status: :created
         end
+      rescue ActiveRecord::RecordInvalid => e
+        render json: ErrorSerializer.serialize(e.record.errors), status: :unprocessable_entity
+      rescue => e
+        render json: ErrorSerializer.serialize(e.message), status: :unprocessable_entity
       end
 
       def destroy
@@ -43,8 +50,8 @@ module Api
 
       def set_account
         @account = current_user.accounts.find_by(id: params[:id])
-        # rescue ActiveRecord::RecordNotFound
-        #   render_error("Account not found", :not_found)
+      rescue ActiveRecord::RecordNotFound
+        render_error("Залогинься кретинушка!", :not_found)
       end
 
       def account_params

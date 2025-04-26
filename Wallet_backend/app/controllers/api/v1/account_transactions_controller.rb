@@ -2,59 +2,76 @@ module Api
   module V1
     class AccountTransactionsController < ApplicationController
       before_action :authenticate_user!
-      before_action :set_account, only: %i[index create]
-      before_action :set_account_transaction, only: %i[show update destroy]
+      before_action :set_account, only: [ :index, :new, :create ]
+      before_action :set_transaction, only: [ :show, :update, :destroy ]
 
       def index
         @transactions = @account.account_transactions
-        render json: @transactions, each_serializer: AccountTransactionSerializer
+        render json: @transactions
       end
 
       def show
+        render json: @transaction
       end
 
-      def create
-        @account_transaction = @account.account_transactions.new(account_transaction_params)
 
-        if @account_transaction.save
-          render json: @account_transaction, serializer: AccountTransactionSerializer, status: :created
-        else
-          render json: ErrorSerializer.serialize(@account_transaction.errors), status: :unprocessable_entity
-        end
-      rescue StandardError => e
-        render json: ErrorSerializer.serialize(e.message), status: :internal_server_error
+      def new; end
+
+      def create
+        transaction = AccountTransactionService.create(transaction_params)
+        render json: transaction, status: :created
+      rescue => e
+        handle_error(e)
       end
 
       def update
-        if @account_transaction.update(account_transaction_params)
-          render json: @account_transaction, serializer: AccountTransactionSerializer
-        else
-          render json: { errors: @account_transaction.errors, received_params: params.to_unsafe_h }, status: :unprocessable_entity
-        end
+        transaction = AccountTransactionUpdateService.update(
+          transaction: @transaction,
+          params: transaction_params
+        )
+        render json: transaction
+      rescue => e
+        handle_error(e)
       end
 
       def destroy
-        @account_transaction.destroy
+        AccountTransactionDestroyService.destroy(@transaction)
         head :no_content
+      rescue => e
+        handle_error(e)
       end
-
 
       private
 
+      def transaction_params
+        params.require(:account_transaction).permit(
+          :amount,
+          :transaction_type,
+          :currency,
+          :description,
+          :account_id
+        )
+      end
+
       def set_account
         @account = current_user.accounts.find(params[:account_id])
-      rescue ActiveRecord::RecordNotFound
-        render json: { error: "Account not found" }, status: :not_found
       end
 
-      def set_account_transaction
-        @account_transaction = AccountTransaction.find(params[:id])
-      rescue ActiveRecord::RecordNotFound
-        render json: { error: "Account transaction not found" }, status: :not_found
+      def set_transaction
+        @transaction = current_user.account_transactions.find(params[:id])
       end
 
-      def account_transaction_params
-        params.expect(account_transaction: [ :id, :amount, :transaction_type, :currency, :description, :account_id ])
+      def handle_error(error)
+        case error
+        when ActiveRecord::RecordNotFound
+          render json: { error: "Not found" }, status: :not_found
+        when Account::BalanceUpdateError,
+             AccountTransaction::ValidationError,
+             ArgumentError
+          render json: { error: error.message }, status: :unprocessable_entity
+        else
+          render json: { error: "Internal error" }, status: :internal_server_error
+        end
       end
     end
   end
