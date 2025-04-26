@@ -11,6 +11,10 @@ class Account < ApplicationRecord
   validates :description, presence: true, length: { within: DESCRIPTION_LENGTH_RANGE }
   validates :user, presence: true
 
+  def balance=(value)
+    raise BalanceUpdateError, "Use Account.update_balance! method to modify balance"
+  end
+
   def self.update_balance!(account, amount, transaction_type)
     account.with_lock do
       case transaction_type.to_sym
