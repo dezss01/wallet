@@ -5,7 +5,6 @@ module.exports = {
   },
   extends: [
     'plugin:vue/vue3-recommended',
-    '@vue/typescript/recommended',
     'vuetify',
     './.eslintrc-auto-import.json',
   ],
