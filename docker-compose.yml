@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: wallet_backend
+      POSTGRES_PASSWORD: C54070a0D01
+      POSTGRES_DB: wallet_backend_development
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./Wallet_backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: postgres://wallet_backend:C54070a0D01@db:5432/wallet_backend_development
+    depends_on:
+      - db
+    volumes:
+      - ./Wallet_backend:/rails
+    command: >
+      sh -c "bin/rails db:migrate && rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"
+
+  frontend:
+    build:
+      context: ./frontend/base_front
+    ports:
+      - "5173:5173"
+    command: yarn dev --host 0.0.0.0
+    volumes:
+      - ./frontend/base_front:/frontend/base_front
+      - node_modules:/frontend/base_front/node_modules
+    working_dir: /frontend/base_front
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
+
+  node_modules:

@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: account_transactions
+#
+#  id               :integer          not null, primary key
+#  amount           :decimal(15, 2)
+#  transaction_type :string
+#  currency         :string
+#  description      :string
+#  account_id       :integer          not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+# Indexes
+#
+#  index_account_transactions_on_account_id  (account_id)
+#
+
 class AccountTransaction < ApplicationRecord
   belongs_to :account
 
@@ -39,7 +57,7 @@ class AccountTransaction < ApplicationRecord
       reverse_transaction_type = old_type == :deposit ? :withdrawal : :deposit
       Account.update_balance!(account, amount, reverse_transaction_type)
 
-      Account.update_balance!(account, amount, transaction_type.to_sym)
+      # Account.update_balance!(account, amount, transaction_type.to_sym)
     end
   rescue Account::BalanceUpdateError => e
     restore_attributes

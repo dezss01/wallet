@@ -65,13 +65,25 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:3000', // адрес вашего бэкенда
+        target: 'http://backend:3000',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-        // добавьте это если хотите передавать куки
         cookieDomainRewrite: 'localhost'
       }
     }
   },
+  build: {
+    rollupOptions: {
+      plugins: [
+        {
+          name: 'force-native-plugin',
+          resolveId(source) {
+            if (source === '@rollup/rollup-linux-arm64-musl') {
+              return { id: source, external: true }
+            }
+          }
+        }
+      ]
+    }
+  }
 })
