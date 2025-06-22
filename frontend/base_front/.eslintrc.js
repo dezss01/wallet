@@ -1,15 +1,11 @@
-/**
- * .eslint.js
- *
- * ESLint configuration file.
- */
-
 module.exports = {
   root: true,
   env: {
     node: true,
   },
   extends: [
+    'plugin:vue/vue3-recommended',
+    '@vue/typescript/recommended',
     'vuetify',
     './.eslintrc-auto-import.json',
   ],
