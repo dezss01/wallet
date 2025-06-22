@@ -4,7 +4,7 @@ FROM --platform=linux/arm64 node:20-alpine
 WORKDIR /frontend/base_front
 
 # Устанавливаем необходимые системные зависимости
-RUN apk add --no-cache python3 make g++ git
+# RUN apk add --no-cache python3 make g++ git
 
 # Копируем только package.json и yarn.lock для кэширования зависимостей
 COPY package.json yarn.lock ./
