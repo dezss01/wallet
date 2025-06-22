@@ -5,9 +5,14 @@ module.exports = {
   },
   extends: [
     'plugin:vue/vue3-recommended',
-    'vuetify',
+    'vuetify/base',
     './.eslintrc-auto-import.json',
   ],
+  parser: 'vue-eslint-parser',
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
   rules: {
     'vue/multi-word-component-names': 'off',
   },
