@@ -1,4 +1,4 @@
-FROM --platform=linux/arm64 node:18-alpine
+FROM --platform=linux/arm64 node:20-alpine
 
 # Устанавливаем рабочую директорию
 WORKDIR /frontend/base_front
