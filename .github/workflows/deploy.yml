@@ -1,34 +1,48 @@
-name: Deploy to VPS
+name: CI and Deploy
 
 on:
   push:
-    branches:
-      - main  # или ваша ветка для деплоя
+    branches: [main]
 
 jobs:
-  deploy:
+  eslint:
+    name: Run ESLint
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'yarn'
+          cache-dependency-path: 'frontend/base_front/yarn.lock'
+      - name: Install dependencies
+        working-directory: frontend/base_front
+        run: yarn install --frozen-lockfile
+      - name: Run ESLint
+        working-directory: frontend/base_front
+        run: yarn lint
 
-    - name: Setup SSH key and known_hosts
-      uses: webfactory/ssh-agent@v0.8.1
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-    - name: Sync files to VPS
-      run: |
-        rsync -avz --delete --exclude='.git*' ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:app/
-
-    - name: Run deploy commands on VPS
-      run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
-          cd app
-          # Останавливаем текущие контейнеры (при необходимости)
-          docker-compose down
-          # Собираем и запускаем контейнеры заново
-          docker-compose up -d --build
-          echo "Deploy finished"
-        EOF
+  deploy:
+    name: Deploy to VPS
+    runs-on: ubuntu-latest
+    needs: eslint  # Это гарантирует, что deploy запустится только если job eslint прошел успешно
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup SSH key and known_hosts
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Sync files to VPS
+        run: |
+          rsync -avz --delete --exclude='.git*' ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:app/
+      - name: Run deploy commands on VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
+            cd app
+            docker-compose down
+            docker-compose up -d --build
+            echo "Deploy finished"
+          EOF
