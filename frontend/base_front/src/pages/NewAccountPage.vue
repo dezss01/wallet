@@ -35,23 +35,19 @@ const handleClear = () => {
 
 <template>
   <form @submit.prevent="handleSubmit">
-    <v-text-field v-model="accountData.name" :counter="50" label="Account name" :error-messages="error?.name">
-    </v-text-field>
+    <v-text-field v-model="accountData.name" :counter="50" label="Account name" :error-messages="error?.name"/>
 
     <v-text-field v-model="accountData.description" :counter="50" label="Account description"
-      :error-messages="error?.description">
-    </v-text-field>
+      :error-messages="error?.description"/>
 
     <v-row>
       <v-col cols="6">
         <v-text-field v-model.number="accountData.balance" type="number" label="Balance"
-          :error-messages="error?.balance">
-        </v-text-field>
+          :error-messages="error?.balance"/>
       </v-col>
       <v-col cols="6">
         <v-select v-model="accountData.currency" label="Currency" :items="['RUB', 'USD', 'EUR']" variant="solo-filled"
-          :error-messages="error?.currency">
-        </v-select>
+          :error-messages="error?.currency"/>
       </v-col>
     </v-row>
 

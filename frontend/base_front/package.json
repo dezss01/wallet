@@ -41,6 +41,7 @@
     "vite": "^5.3.3",
     "vite-plugin-vue-layouts": "^0.11.0",
     "vite-plugin-vuetify": "^2.0.3",
+    "vue-eslint-parser": "^10.1.3",
     "vue-router": "^4.4.0"
   }
 }

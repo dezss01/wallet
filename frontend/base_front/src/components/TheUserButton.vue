@@ -44,11 +44,11 @@ const userInitials = computed(() => {
               <p class="text-caption mt-1">
                 {{ currentUser.email }}
               </p>
-              <v-divider class="my-3"></v-divider>
+              <v-divider class="my-3"/>
               <v-btn variant="text" rounded @click="editProfile">
                 Edit Account
               </v-btn>
-              <v-divider class="my-3"></v-divider>
+              <v-divider class="my-3"/>
               <v-btn variant="text" rounded @click="logout">
                 Logout
               </v-btn>

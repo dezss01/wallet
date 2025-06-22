@@ -41,11 +41,9 @@ const submit = async (userData) => {
   <v-container>
     <form @submit.prevent="submit(userData)">
       <v-text-field v-model="userData.email" label="E-mail" :error-messages='errors' variant='outlined'
-        density='compact'>
-      </v-text-field>
+        density='compact'/>
       <v-text-field v-model="userData.password" label="Password" type="password" :error-messages='errors'
-        variant='outlined' density='compact'>
-      </v-text-field>
+        variant='outlined' density='compact'/>
       <v-btn class="me-4" type="submit">
         submit
       </v-btn>

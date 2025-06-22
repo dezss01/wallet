@@ -1,9 +1,10 @@
 const vuePlugin = require('eslint-plugin-vue');
+const vueParser = require('vue-eslint-parser');
 const globals = require('globals');
 
 module.exports = [
   {
-    files: ['**/*.vue', '**/*.js'],
+    files: ['**/*.js'],
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -12,6 +13,26 @@ module.exports = [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module'
+      }
+    }
+  },
+  {
+    files: ['**/*.vue'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node
+      },
+      parser: vueParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        parser: {
+          // Use espree for <script> blocks in Vue files
+          js: 'espree',
+          // Ensure Vue template parsing
+          vue: 'vue-eslint-parser'
+        }
       }
     },
     plugins: {
@@ -25,8 +46,7 @@ module.exports = [
           normal: 'always',
           component: 'always'
         }
-      }],
-      'vue/component-api-style': ['error', ['script-setup']]
+      }]
     }
   }
 ];

@@ -130,7 +130,7 @@ const resetForm = () => {
 
 <template>
   <section v-if="loading">
-    <v-progress-linear indeterminate color="primary"></v-progress-linear>
+    <v-progress-linear indeterminate color="primary"/>
     <div class="text-center mt-4">Загрузка данных...</div>
   </section>
 
@@ -159,14 +159,14 @@ const resetForm = () => {
       </v-card-text>
     </v-card>
 
-    <v-divider class="my-8"></v-divider>
+    <v-divider class="my-8"/>
 
     <h3 class="mb-4">Транзакции ({{ transactions.length }}):</h3>
     <v-list v-if="transactions.length > 0">
       <v-list-item v-for="transaction in transactions" :key="transaction.id" class="mb-4">
         <template v-slot:prepend>
           <v-icon :color="transaction.transaction_type == 'deposit' ? 'green' : 'red'"
-            :icon="transaction.transaction_type == 'deposit' ? 'mdi-arrow-up' : 'mdi-arrow-down'"></v-icon>
+            :icon="transaction.transaction_type == 'deposit' ? 'mdi-arrow-up' : 'mdi-arrow-down'"/>
         </template>
 
         <v-list-item-title>
@@ -179,10 +179,10 @@ const resetForm = () => {
 
         <template v-slot:append>
           <div class="d-flex gap-2">
-            <v-btn icon="mdi-pencil" size="small" @click="editTransaction(transaction)" class='mr-3'></v-btn>
+            <v-btn icon="mdi-pencil" size="small" @click="editTransaction(transaction)" class='mr-3'/>
 
             <v-btn icon="mdi-delete" color="error" size="small" @click="deleteTransaction(transaction.id)"
-              class='mr-3'></v-btn>
+              class='mr-3'/>
 
             <div>
               {{ transaction.transaction_type === 'deposit' ? '+' : '-' }}
@@ -204,21 +204,21 @@ const resetForm = () => {
       Аккаунт не найден!
     </v-alert>
   </section>
-  <v-divider class='my-8'></v-divider>
+  <v-divider class='my-8'/>
   <v-btn color="primary" @click="showForm = !showForm" class="mb-4">
     {{ showForm ? 'Скрыть форму' : 'Добавить транзакцию' }}
   </v-btn>
   <v-form v-if="showForm" @submit.prevent="editMode ? updateTransaction() : createTransaction()">
     <v-select v-model="newTransaction.transaction_type" :items="['deposit', 'withdrawal']" label="Тип транзакции"
-      required class="mb-4"></v-select>
+      required class="mb-4"/>
 
     <v-text-field v-model.number="newTransaction.amount" type="number" label="Сумма" required
-      :rules="[v => v > 0 || 'Сумма должна быть больше 0']" class="mb-4"></v-text-field>
+      :rules="[v => v > 0 || 'Сумма должна быть больше 0']" class="mb-4"/>
 
-    <v-text-field v-model="newTransaction.description" label="Описание" required class="mb-4"></v-text-field>
+    <v-text-field v-model="newTransaction.description" label="Описание" required class="mb-4"/>
 
     <v-select v-model="newTransaction.currency" :items="['RUB', 'USD', 'EUR']" label="Валюта" required
-      class="mb-4"></v-select>
+      class="mb-4"/>
 
     <div class="d-flex gap-2">
       <v-btn color="primary" type="submit">

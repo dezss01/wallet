@@ -1,5 +1,5 @@
 <template>
-  <v-alert closable title="Update profile" text="Updating profile successfully" type="success" v-if="success"></v-alert>
+  <v-alert closable title="Update profile" text="Updating profile successfully" type="success" v-if="success"/>
   <v-form @submit.prevent="onSubmit(userData)">
     <v-text-field v-model="userData.first_name" :counter="50" label="First name" :error-messages="errors?.first_name" />
     <v-text-field v-model="userData.last_name" :counter="50" label="Last name" :error-messages="errors?.last_name" />

@@ -8,9 +8,9 @@
           Accounts
         </router-link>
       </v-toolbar-items>
-      <v-spacer></v-spacer>
+      <v-spacer />
       <v-toolbar-items>
-        <the-menu></the-menu>
+        <the-menu />
       </v-toolbar-items>
     </v-app-bar>
 
@@ -32,7 +32,7 @@
 
     <v-main>
       <v-container fluid>
-        <router-view></router-view>
+        <router-view />
       </v-container>
     </v-main>
 

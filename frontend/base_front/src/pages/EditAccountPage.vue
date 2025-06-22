@@ -83,23 +83,19 @@ const handleClear = () => {
       {{ formState.error }}
     </div>
     <v-text-field v-model="formState.account.name" :counter="50" label="Account name"
-      :error-messages="formState.error?.name">
-    </v-text-field>
+      :error-messages="formState.error?.name"/>
 
     <v-text-field v-model="formState.account.description" :counter="50" label="Account description"
-      :error-messages="formState.error?.description">
-    </v-text-field>
+      :error-messages="formState.error?.description"/>
 
     <v-row>
       <v-col cols="6">
         <v-text-field v-model.number="formState.account.balance" type="number" label="Balance"
-          :error-messages="formState.error?.balance">
-        </v-text-field>
+          :error-messages="formState.error?.balance"/>
       </v-col>
       <v-col cols="6">
         <v-select v-model="formState.account.currency" label="Currency" :items="formState.currencies"
-          variant="solo-filled" :error-messages="formState.error?.currency">
-        </v-select>
+          variant="solo-filled" :error-messages="formState.error?.currency"/>
       </v-col>
     </v-row>
 

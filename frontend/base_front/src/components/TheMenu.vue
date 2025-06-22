@@ -20,7 +20,7 @@ const signUp = () => navigateTo('sign-up')
 
 <template>
   <v-toolbar-items v-if="isAuthenticated">
-    <the-user-button class="mx-3 my-1"></the-user-button>
+    <the-user-button class="mx-3 my-1"/>
   </v-toolbar-items>
   <v-toolbar-items v-else>
     <v-btn @click="signUp">Sign Up</v-btn>

@@ -62,7 +62,7 @@ const openDialog = (accountId) => {
     </section>
 
     <section v-if="loading" class="loading">
-      <v-progress-linear indeterminate color="primary"></v-progress-linear>
+      <v-progress-linear indeterminate color="primary"/>
     </section>
 
     <section v-if="error" class="error">{{ error }}</section>

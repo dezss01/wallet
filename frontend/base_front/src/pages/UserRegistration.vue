@@ -1,14 +1,14 @@
 <template>
   <form @submit.prevent="submit(userData)">
     <v-text-field v-model="userData.first_name" :counter="50" label="First name"
-      :error-messages='errors?.first_name'></v-text-field>
+      :error-messages='errors?.first_name'/>
     <v-text-field v-model="userData.last_name" :counter="50" label="Last name"
-      :error-messages='errors?.last_name'></v-text-field>
+      :error-messages='errors?.last_name'/>
     <v-text-field v-model="userData.user_name" :counter="50" label="Nickname"
-      :error-messages='errors?.user_name'></v-text-field>
-    <v-text-field v-model="userData.email" label="E-mail" :error-messages='errors?.email'></v-text-field>
+      :error-messages='errors?.user_name'/>
+    <v-text-field v-model="userData.email" label="E-mail" :error-messages='errors?.email'/>
     <v-text-field v-model="userData.password" label="Password" type="password"
-      :error-messages='errors?.password'></v-text-field>
+      :error-messages='errors?.password'/>
 
     <v-btn class="me-4" type="submit">
       submit
