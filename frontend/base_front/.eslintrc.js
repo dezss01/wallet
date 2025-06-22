@@ -1,19 +1,22 @@
 module.exports = {
-  root: true,
-  env: {
-    node: true,
-  },
   extends: [
     'plugin:vue/vue3-recommended',
-    'vuetify/base',
-    './.eslintrc-auto-import.json',
+    'eslint:recommended'
   ],
   parser: 'vue-eslint-parser',
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module',
+    sourceType: 'module'
   },
   rules: {
+    // Базовые правила Vuetify
     'vue/multi-word-component-names': 'off',
-  },
+    'vue/html-self-closing': ['error', {
+      html: {
+        void: 'always',
+        normal: 'always',
+        component: 'always'
+      }
+    }]
+  }
 }
