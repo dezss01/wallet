@@ -1,7 +1,7 @@
 FROM node:20-alpine
 
 # Устанавливаем рабочую директорию
-WORKDIR /frontend/base_front
+WORKDIR /frontend
 
 # Устанавливаем необходимые системные зависимости
 # RUN apk add --no-cache python3 make g++ git

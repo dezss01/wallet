@@ -13,9 +13,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   def create
-    Rails.logger.debug "____________________________ХУИТА2_______________________"
-    puts("____________________________ХУИТА2_______________________")
-
+    super do |resource|
+      Rails.logger.debug "____________________________ХУИТА2_______________________"
+      puts("____________________________ХУИТА2_______________________")
+    end
 
     build_resource(sign_up_params)
 

@@ -14,7 +14,7 @@ services:
 
   backend:
     build:
-      context: ./Wallet_backend
+      context: ./backend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
@@ -24,20 +24,20 @@ services:
     depends_on:
       - db
     volumes:
-      - ./Wallet_backend:/rails
+      - ./backend:/rails
     command: >
       sh -c "bin/rails db:migrate && rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"
 
   frontend:
     build:
-      context: ./frontend/base_front
+      context: ./frontend
     ports:
       - "5173:5173"
     command: yarn dev --host 0.0.0.0
     volumes:
-      - ./frontend/base_front:/frontend/base_front
-      - node_modules:/frontend/base_front/node_modules
-    working_dir: /frontend/base_front
+      - ./frontend:/frontend
+      - node_modules:/frontend/node_modules
+    working_dir: /frontend
     environment:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
