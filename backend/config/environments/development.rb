@@ -5,7 +5,7 @@ Rails.application.configure do
   config.hosts << "backend:3000"
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true
-
+  config.debug_exception_response_format = :api
   # Do not eager load code on boot.
   config.eager_load = false
 
