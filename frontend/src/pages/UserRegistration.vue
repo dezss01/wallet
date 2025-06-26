@@ -1,14 +1,10 @@
 <template>
   <form @submit.prevent="submit(userData)">
-    <v-text-field v-model="userData.first_name" :counter="50" label="First name"
-      :error-messages='errors?.first_name'/>
-    <v-text-field v-model="userData.last_name" :counter="50" label="Last name"
-      :error-messages='errors?.last_name'/>
-    <v-text-field v-model="userData.user_name" :counter="50" label="Nickname"
-      :error-messages='errors?.user_name'/>
-    <v-text-field v-model="userData.email" label="E-mail" :error-messages='errors?.email'/>
-    <v-text-field v-model="userData.password" label="Password" type="password"
-      :error-messages='errors?.password'/>
+    <v-text-field v-model="userData.first_name" :counter="50" label="First name" :error-messages='errors?.first_name' />
+    <v-text-field v-model="userData.last_name" :counter="50" label="Last name" :error-messages='errors?.last_name' />
+    <v-text-field v-model="userData.user_name" :counter="50" label="Nickname" :error-messages='errors?.user_name' />
+    <v-text-field v-model="userData.email" label="E-mail" :error-messages='errors?.email' />
+    <v-text-field v-model="userData.password" label="Password" type="password" :error-messages='errors?.password' />
 
     <v-btn class="me-4" type="submit">
       submit
@@ -41,18 +37,18 @@ const handleClear = () => {
     userData[key] = ''
   })
 }
+
 const submit = async (userData) => {
-  errors.value = ''
+  errors.value = {}
   try {
-    const result = await authStore.signUp(userData)
-    // TO-DO: Написать логику после успешной регистрации (переход куда-то или еще что)
-    if (!result.success) {
-      errors.value = result.message || 'An error occurred while creating the profile.'
+    const result = await authStore.signUp({ registration: userData })
+    if (result.errors) {
+      errors.value = result.errors
     } else {
       router.push('/')
     }
   } catch (error) {
-    errors.value = 'An unexpected error occurred. Please try again.'
+    errors.value = { base: ['An unexpected error occurred. Please try again.'] }
   }
 };
 
