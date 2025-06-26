@@ -8,7 +8,7 @@ const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
-    // 'Accept': 'application/json'
+    'Accept': 'application/json'
   },
   withCredentials: true
 })
@@ -25,7 +25,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async signUp(userData) {
       try {
-        const response = await apiClient.post('/users', userData);
+        const response = await apiClient.post('/users/signup', userData);
         this.setUser(response.data.user);
         this.setToken(response.headers.authorization);
         return { success: true, data: response.data };
@@ -37,7 +37,7 @@ export const useAuthStore = defineStore('auth', {
     },
     async signIn(userData) {
       try {
-        const response = await apiClient.post('users/sign_in', { user: userData } );
+        const response = await apiClient.post('users/login', { user: userData } );
         this.setUser(response.data.user);
         this.setToken(response.headers.authorization);
         return { success: true, data: response.data };
@@ -60,7 +60,7 @@ export const useAuthStore = defineStore('auth', {
     },
     async logout() {
       try {
-        await apiClient.delete('/users/sign_out');
+        await apiClient.delete('/users/logout');
         this.clearAuth();
         return { success: true };
       } catch (error) {

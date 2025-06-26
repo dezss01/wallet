@@ -17,9 +17,10 @@ Devise.setup do |config|
   # config.secret_key = 'a71e1359f47dc82971f7bc3c67a89eb5fe3364281039a19a662ba9d28789989604a28ff0187046aa76a55835711d629ef9e94db21c0a9db6d4cf0d3828d8c1db'
   config.navigational_formats = []
   config.jwt do |jwt|
-    jwt.secret = Rails.application.credentials.jwt_secret_key!
+    jwt.secret = Rails.application.credentials.devise_jwt_secret_key
     jwt.dispatch_requests = [
-      [ "POST", %r{^/login$} ]
+      [ "POST", %r{^/login$} ],
+      [ "POST", %r{^/signup$} ]
     ]
     jwt.revocation_requests = [
       [ "DELETE", %r{^/logout$} ]
@@ -90,7 +91,7 @@ Devise.setup do |config|
   # enable this with :database unless you are using a custom strategy.
   # The supported strategies are:
   # :database      = Support basic authentication with authentication key + password
-  # config.http_authenticatable = false
+  config.http_authenticatable = true
 
   # If 401 status code should be returned for AJAX requests. True by default.
   # config.http_authenticatable_on_xhr = true
@@ -274,7 +275,7 @@ Devise.setup do |config|
   # should add them to the navigational formats lists.
   #
   # The "*/*" below is required to match Internet Explorer requests.
-  # config.navigational_formats = ['*/*', :html, :turbo_stream]
+  config.navigational_formats = [ "*/*", :json ]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete

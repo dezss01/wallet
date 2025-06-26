@@ -18,7 +18,7 @@ RUN yarn cache clean && \
 COPY . .
 
 # Открываем порт для Vite
-EXPOSE 80
+EXPOSE 5173
 
 # Команда для запуска dev-сервера
 CMD ["yarn", "dev", "--host", "0.0.0.0"]
